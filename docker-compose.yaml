@@ -1,0 +1,49 @@
+version: '3'
+
+# Run as
+# docker-compose build; docker-compose up -d
+# Check with
+# docker ps
+# Then check the logs with
+# docker logs --tail 50 $service_name
+# docker-compose images
+# docker-compose logs --tail 20 $service_name
+
+services:
+
+  mysql_db:
+    image: mysql:8.0.28
+    environment:   # Set up mysql database name and password
+      MYSQL_ROOT_PASSWORD: abcd1234
+      MYSQL_DATABASE: emailtask
+    networks:
+      - app-tier
+    ports:
+      - 3306:3306
+
+  python_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      EMAIL: emailriskreader@gmail.com
+      PASSWORD: ^qoMj&K$$7O!z
+      LOOP_TIME: 10
+      SEARCH_UNSEEN: "True"
+      SEARCH_KEYWORD: Risk
+      SEARCH_CRITERIA: BODY
+      MYSQL_HOST: mysql_db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASS: abcd1234
+      MYSQL_DB: emailtask
+    depends_on:
+      - mysql_db
+    networks:
+      - app-tier
+    #command:
+    #  tail -f /dev/null
+
+networks:
+  app-tier:
+    driver: bridge
