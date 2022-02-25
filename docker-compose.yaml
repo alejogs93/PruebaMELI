@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     environment:
       EMAIL: emailriskreader@gmail.com
-      PASSWORD: ^qoMj&K$$7O!z
+      PASSWORD: T3Stemail++
       LOOP_TIME: 10
       SEARCH_UNSEEN: "True"
       SEARCH_KEYWORD: Risk
