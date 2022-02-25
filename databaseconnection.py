@@ -24,10 +24,13 @@ class Engine():
         self.__create()
 
     def __create(self):
-        url='mysql+pymysql://{}:{}@{}:{}/{}'.format(self.__user,self.__password,self.__host,self.__port,self.__database)
-        print(url)
-        self.__engine = create_engine(url, echo=True)
-        Base.metadata.create_all(self.__engine)
+        try:
+            url='mysql+pymysql://{}:{}@{}:{}/{}'.format(self.__user,self.__password,self.__host,self.__port,self.__database)
+            print(url)
+            self.__engine = create_engine(url, echo=True)
+            Base.metadata.create_all(self.__engine)
+        except:
+            logger1.info('Error al conectarse a la base de datos, revise los parametros de coneccion y si la base de datos existe')
 
     #Crear session de trabaj con base de datos con opcion de expiracion cuando se realice el commit
     def __create_session(self):

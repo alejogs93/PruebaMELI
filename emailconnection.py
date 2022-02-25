@@ -15,12 +15,16 @@ class EmailConnection:
 
     def connect(self) -> bool:
         imap_url=''
+
+        #se solicita el nombre del proveedor de correos y no la url imap para hacerlo mas user friendly
         if self.__conn_type == 'gmail':
             imap_url = 'imap.gmail.com'
 
         logger1.info('Intentando establecer coneccion con {}'.format(imap_url))
+
         self.__set_connection_status(False)
         while not self.__connected:
+            #Intentar conectarse al sevidor IMAP
             try:
                 self.__connection = imaplib.IMAP4_SSL(imap_url)
             except Exception:
@@ -37,6 +41,7 @@ class EmailConnection:
 
             logger1.info('Iniciar Sesion: - {0}'.format(self.__user))
 
+            #intentar hacer login al servidor
             try:
                 login_res = self.__connection.login(self.__user, self.__password)
                 logger1.info('Exitoso - {0}'.format(login_res))
@@ -52,6 +57,7 @@ class EmailConnection:
 			
 			
             logger1.info('Conectandose a la carpeta - {0}'.format(self.__source))
+            #Conectarse a la carpeta del correo
             try:
                 result = self.__connection.select(self.__source)
                 logger1.info('Carpeta seleccionada')

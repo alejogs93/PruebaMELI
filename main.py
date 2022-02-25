@@ -15,6 +15,7 @@ def endless_loop(config:Configuration, engine: Engine):
     appconfig=config.get_app_config()
     while True:
         try:
+            EMAIL_CONNECTION.connect()
             if appconfig.criteria == 'BODY':
                 result = EMAIL_CONNECTION.search_email_matching_body_condition(appconfig.keyword,appconfig.unseen)      
                 engine.save_list_of_emails(result)
